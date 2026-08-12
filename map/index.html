@@ -1,0 +1,123 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beyond60 — Shoot Map</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f6f1e6;
+    --fg: #24331f;
+    --muted: #6b6152;
+    --gate: #3f6b4a;
+    --pool: #cfe0d6;
+    --pool-line: #3f6b4a;
+    --building: #fffdf7;
+    --building-line: #8a6425;
+    --divider: rgba(138,100,37,.35);
+    --path: #b8903f;
+    --point-fill: #3f6b4a;
+    --point-text: #f6f1e6;
+    --note: #9c6b1f;
+    --approx: rgba(184,144,63,.55);
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 14px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 460px; margin: 0 auto; padding: 18px 16px 40px; }
+  h1 { font-size: 18px; margin: 0 0 2px; letter-spacing: -.01em; }
+  .sub { font-size: 12px; color: var(--muted); margin: 0 0 14px; }
+  svg { width: 100%; height: auto; display: block; }
+  .title { font-size: 13px; font-weight: 700; fill: var(--fg); }
+  .label { font-size: 11px; font-weight: 600; fill: var(--fg); }
+  .small { font-size: 9.5px; fill: var(--muted); }
+  .num { font-size: 11px; font-weight: 700; fill: var(--point-text); }
+  .approx-note { font-size: 9.5px; fill: var(--note); font-weight: 700; }
+  .legend-item { font-size: 11px; fill: var(--fg); }
+  .gate-box { fill: var(--gate); stroke: none; }
+  .gate-text { fill: #f6f1e6; font-size: 10px; font-weight: 700; }
+  .pool { fill: var(--pool); stroke: var(--pool-line); stroke-width: 1.4; }
+  .building { fill: var(--building); stroke: var(--building-line); stroke-width: 1.2; rx: 6; }
+  .divider { stroke: var(--divider); stroke-width: 1; stroke-dasharray: 3 3; }
+  .approx-box { fill: none; stroke: var(--approx); stroke-width: 1.4; stroke-dasharray: 6 5; rx: 8; }
+  .path { fill: none; stroke: var(--path); stroke-width: 2; stroke-dasharray: 5 5; }
+  .point { fill: var(--point-fill); stroke: var(--bg); stroke-width: 2; }
+  ol.legend { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 6px; }
+  ol.legend li { display: flex; gap: 8px; align-items: baseline; font-size: 12.5px; }
+  ol.legend .n {
+    flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%; background: var(--point-fill);
+    color: var(--point-text); font-size: 10px; font-weight: 700; display: grid; place-items: center;
+  }
+  ol.legend .tag { font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-left: 4px; }
+</style>
+<main>
+  <h1>Beyond60 — Shoot Map</h1>
+  <p class="sub">Rough schematic from a verbal walkthrough, not a surveyed plan — not to scale. Confirm and adjust the actual route once you're on site.</p>
+
+  <svg viewBox="0 0 420 660" xmlns="http://www.w3.org/2000/svg">
+    <!-- path connecting shot points, drawn first so it sits behind markers -->
+    <path class="path" d="M210,64 L210,130 L210,228 L398,220 L398,300 L398,380 L210,260 L22,300 L22,380 L210,260 L210,505" />
+
+    <!-- gate -->
+    <rect class="gate-box" x="178" y="26" width="64" height="32" rx="5"/>
+    <text class="gate-text" x="210" y="46" text-anchor="middle">GATE</text>
+
+    <!-- pool -->
+    <ellipse class="pool" cx="210" cy="260" rx="66" ry="38"/>
+    <text class="label" x="210" y="266" text-anchor="middle">Pool</text>
+    <text class="small" x="210" y="280" text-anchor="middle">both buildings frame it</text>
+
+    <!-- right building -->
+    <rect class="building" x="280" y="170" width="120" height="260" rx="6"/>
+    <text class="title" x="340" y="188" text-anchor="middle">Right building</text>
+    <line class="divider" x1="280" y1="330" x2="400" y2="330"/>
+    <text class="label" x="340" y="215" text-anchor="middle">Ground floor</text>
+    <text class="small" x="340" y="230" text-anchor="middle">hall · lounge · dining</text>
+    <text class="small" x="340" y="243" text-anchor="middle">activities · office · library</text>
+    <text class="label" x="340" y="365" text-anchor="middle">Floors 1–3</text>
+    <text class="small" x="340" y="380" text-anchor="middle">resident rooms</text>
+
+    <!-- left building -->
+    <rect class="building" x="20" y="170" width="120" height="260" rx="6"/>
+    <text class="title" x="80" y="188" text-anchor="middle">Left building</text>
+    <line class="divider" x1="20" y1="330" x2="140" y2="330"/>
+    <text class="label" x="80" y="215" text-anchor="middle">Ground floor</text>
+    <text class="small" x="80" y="230" text-anchor="middle">clinic / emergency room</text>
+    <text class="small" x="80" y="243" text-anchor="middle">+ ambulance bay</text>
+    <text class="label" x="80" y="365" text-anchor="middle">Floors 1–3</text>
+    <text class="small" x="80" y="380" text-anchor="middle">empty — reserved for</text>
+    <text class="small" x="80" y="392" text-anchor="middle">future capacity</text>
+
+    <!-- gym / activity ground (approximate position) -->
+    <rect class="approx-box" x="80" y="520" width="260" height="90"/>
+    <text class="label" x="210" y="545" text-anchor="middle">Outdoor gym + open activity ground</text>
+    <text class="approx-note" x="210" y="562" text-anchor="middle">POSITION APPROXIMATE — CONFIRM ON SITE</text>
+
+    <!-- numbered points, on top of everything -->
+    <g>
+      <circle class="point" cx="210" cy="64" r="11"/><text class="num" x="210" y="68" text-anchor="middle">1</text>
+      <circle class="point" cx="210" cy="130" r="11"/><text class="num" x="210" y="134" text-anchor="middle">2</text>
+      <circle class="point" cx="210" cy="228" r="11"/><text class="num" x="210" y="232" text-anchor="middle">3</text>
+      <circle class="point" cx="398" cy="220" r="11"/><text class="num" x="398" y="224" text-anchor="middle">4</text>
+      <circle class="point" cx="398" cy="300" r="11"/><text class="num" x="398" y="304" text-anchor="middle">5</text>
+      <circle class="point" cx="398" cy="380" r="11"/><text class="num" x="398" y="384" text-anchor="middle">6</text>
+      <circle class="point" cx="22" cy="300" r="11"/><text class="num" x="22" y="304" text-anchor="middle">7</text>
+      <circle class="point" cx="22" cy="380" r="11"/><text class="num" x="22" y="384" text-anchor="middle">8</text>
+      <circle class="point" cx="210" cy="505" r="11"/><text class="num" x="210" y="509" text-anchor="middle">9</text>
+    </g>
+  </svg>
+
+  <ol class="legend">
+    <li><span class="n">1</span> Gate <span class="tag">photo</span></li>
+    <li><span class="n">2</span> Walk/approach toward the pool <span class="tag">video</span></li>
+    <li><span class="n">3</span> Pool, both buildings framing it <span class="tag">photo</span></li>
+    <li><span class="n">4</span> Pan right — building exterior + ground floor <span class="tag">video</span></li>
+    <li><span class="n">5</span> Right building interior — lounge/dining/library/activities <span class="tag">photos</span></li>
+    <li><span class="n">6</span> Right building rooms, floors 1–3 <span class="tag">photos</span></li>
+    <li><span class="n">7</span> Pan left — toward clinic/ambulance building <span class="tag">video</span></li>
+    <li><span class="n">8</span> Clinic + ambulance close-up <span class="tag">photos</span></li>
+    <li><span class="n">9</span> Outdoor gym + activity ground <span class="tag">photos/video</span></li>
+  </ol>
+</main>
